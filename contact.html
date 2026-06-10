@@ -13,7 +13,7 @@
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
         <span></span><span></span><span></span>
       </button>
-      <a class="brand" href="index.html"><img class="brand-logo-image" src="assets/brand/drs-logo.png" alt="DRS Supplements"></a>
+      <a class="brand" href="index.html" aria-label="DRS Supplements"><img class="brand-logo-image" src="assets/brand/drs-logo-wide.png" alt="DRS Supplements"></a>
       <div class="nav-actions">
         <a class="cart-link nav-cart" href="cart.html" aria-label="Cart">
           <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -30,6 +30,8 @@
         <a href="products.html">Products</a>
         <a href="about.html">About</a>
         <a class="active" href="contact.html">Contact</a>
+        <a href="track.html">Track</a>
+        <a href="admin.html">Admin</a>
       </nav>
     </div>
   </header>
@@ -90,6 +92,9 @@
       <p>One Stop for All Your Supplement Needs</p>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="cloudinary-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

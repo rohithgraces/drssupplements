@@ -13,8 +13,8 @@
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
         <span></span><span></span><span></span>
       </button>
-      <a class="brand brand-detail" href="index.html">
-        <img class="brand-logo-image brand-logo-detail" src="assets/brand/drs-logo-detail.png" alt="DRS Supplements">
+      <a class="brand" href="index.html" aria-label="DRS Supplements">
+        <img class="brand-logo-image" src="assets/brand/drs-logo-wide.png" alt="DRS Supplements">
       </a>
       <div class="nav-actions">
         <a class="cart-link nav-cart" href="cart.html" aria-label="Cart">
@@ -32,7 +32,8 @@
         <a class="active" href="products.html">Products</a>
         <a href="about.html">About</a>
         <a href="contact.html">Contact</a>
-        <a class="cart-link" href="cart.html">Cart (<span data-cart-count>0</span>)</a>
+        <a href="track.html">Track</a>
+        <a href="admin.html">Admin</a>
       </nav>
     </div>
   </header>
@@ -64,6 +65,9 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="cloudinary-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

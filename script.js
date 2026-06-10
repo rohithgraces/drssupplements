@@ -31,13 +31,45 @@ const PRODUCTS = [
     ],
   },
   {
+    id: "atom-whey-enzyme-1kg",
+    name: "Atom Whey Enzyme",
+    category: "Whey 1kg",
+    brand: "Atom",
+    variantGroup: "atom-whey-enzyme",
+    price: 1999,
+    originalPrice: 2400,
+    size: "1 kg",
+    label: "27g Protein + BCAA + EAA",
+    offer: "Save â‚¹401",
+    stock: "In stock",
+    imageLabel: "ATOM",
+    image: "assets/products/atom-whey-enzyme-front.jpeg",
+    images: [
+      "assets/products/atom-whey-enzyme-front.jpeg",
+      "assets/products/atom-whey-enzyme-back.jpeg",
+    ],
+    flavours: ["Double Rich Chocolate", "Vanilla", "Cookies & Cream", "Mango Fusion", "Cafe Latte", "Mocha Cappuccino"],
+    description: "Atom whey enzyme protein 1 kg pack with protein, BCAA and EAA support for training recovery.",
+    details: ["27g protein", "BCAA + EAA + L-Glutamine", "Digestive enzyme support"],
+    specs: [
+      "Category: Whey 1kg",
+      "Goal: Recovery",
+      "Pack size: 1 kg",
+      "Protein: 27g",
+      "Formula: BCAA + EAA + L-Glutamine",
+      "Flavours: Double Rich Chocolate, Vanilla, Cookies & Cream, Mango Fusion, Cafe Latte, Mocha Cappuccino",
+      "Brand: Atom",
+    ],
+  },
+  {
     id: "atom-whey-enzyme-44lb",
     name: "Atom Whey Enzyme",
     category: "Whey Protein",
     brand: "Atom",
+    variantGroup: "atom-whey-enzyme",
     price: 3599,
     originalPrice: 4300,
-    size: "4.4 lb",
+    size: "4.4 lb / 2 kg",
     label: "27g Protein + BCAA + EAA",
     offer: "Save ₹701",
     stock: "In stock",
@@ -47,6 +79,7 @@ const PRODUCTS = [
       "assets/products/atom-whey-enzyme-front.jpeg",
       "assets/products/atom-whey-enzyme-back.jpeg",
     ],
+    flavours: ["Double Rich Chocolate", "Vanilla", "Cookies & Cream", "Mango Fusion", "Cafe Latte", "Mocha Cappuccino"],
     description: "Atom whey enzyme protein with protein, BCAA and EAA support for training recovery.",
     details: ["27g protein", "BCAA + EAA + L-Glutamine", "Digestive enzyme support"],
     specs: [
@@ -192,6 +225,7 @@ const PRODUCTS = [
     name: "Atom Whey",
     category: "Whey 4kg",
     brand: "Atom",
+    variantGroup: "atom-whey-enzyme",
     price: 6700,
     originalPrice: 8400,
     size: "8.8 lb / 4 kg",
@@ -199,6 +233,12 @@ const PRODUCTS = [
     offer: "Save ₹1,700",
     stock: "In stock",
     imageLabel: "ATOM",
+    image: "assets/products/atom-whey-enzyme-front.jpeg",
+    images: [
+      "assets/products/atom-whey-enzyme-front.jpeg",
+      "assets/products/atom-whey-enzyme-back.jpeg",
+    ],
+    flavours: ["Double Rich Chocolate", "Vanilla", "Cookies & Cream", "Mango Fusion", "Cafe Latte", "Mocha Cappuccino"],
     description: "Atom whey 8.8 lb large pack with protein, BCAA and EAA support.",
     details: ["27g protein", "BCAA + EAA support", "Large 4 kg category pack"],
     specs: ["Category: Whey 4kg", "Goal: Muscle gain", "Pack size: 8.8 lb", "Brand: Atom"],
@@ -261,6 +301,269 @@ const currency = new Intl.NumberFormat("en-IN", {
 
 const UPI_ID = "drssupplements@upi";
 const UPI_QR_IMAGE = "assets/checkout/upi-qr.svg";
+const ADMIN_PRODUCTS_KEY = "drsAdminProducts";
+const DELETED_PRODUCTS_KEY = "drsDeletedProducts";
+const ORDERS_KEY = "drsOrders";
+const SUPABASE_PRODUCTS_TABLE = "products";
+const SUPABASE_ORDERS_TABLE = "orders";
+const SUPABASE_SETTINGS_TABLE = "settings";
+const SUPABASE_DELETED_PRODUCTS_ID = "deletedProducts";
+
+let supabaseClient = null;
+
+function isSupabaseConfigured() {
+  const config = window.DRS_SUPABASE_CONFIG;
+  return Boolean(
+    window.supabase &&
+    config &&
+    config.url &&
+    config.anonKey &&
+    !String(config.anonKey).startsWith("PASTE_")
+  );
+}
+
+function setupSupabase() {
+  if (!isSupabaseConfigured()) return null;
+  if (supabaseClient) return supabaseClient;
+
+  try {
+    supabaseClient = window.supabase.createClient(
+      window.DRS_SUPABASE_CONFIG.url,
+      window.DRS_SUPABASE_CONFIG.anonKey
+    );
+    return supabaseClient;
+  } catch (error) {
+    console.warn("Supabase setup failed. Using localStorage fallback.", error);
+    return null;
+  }
+}
+
+async function syncTableToSupabase(tableName, records, previousRecords = []) {
+  const client = setupSupabase();
+  if (!client) return;
+
+  try {
+    const nextIds = new Set(records.map((record) => record.id).filter(Boolean));
+    const removedIds = previousRecords.map((record) => record.id).filter((id) => id && !nextIds.has(id));
+
+    if (removedIds.length) {
+      const { error: deleteError } = await client.from(tableName).delete().in("id", removedIds);
+      if (deleteError) throw deleteError;
+    }
+
+    if (records.length) {
+      const rows = records
+        .filter((record) => record.id)
+        .map((record) => ({
+          id: record.id,
+          data: record,
+          updated_at: new Date().toISOString(),
+        }));
+      const { error: upsertError } = await client.from(tableName).upsert(rows, { onConflict: "id" });
+      if (upsertError) throw upsertError;
+    }
+  } catch (error) {
+    console.warn(`Supabase ${tableName} sync failed. Local copy is saved.`, error);
+  }
+}
+
+async function fetchSupabaseTable(tableName) {
+  const client = setupSupabase();
+  if (!client) return [];
+
+  try {
+    const { data, error } = await client.from(tableName).select("id,data");
+    if (error) throw error;
+    return (data || []).map((row) => ({ id: row.id, ...(row.data || {}) }));
+  } catch (error) {
+    console.warn(`Supabase ${tableName} fetch failed. Using localStorage fallback.`, error);
+    return [];
+  }
+}
+
+async function syncDeletedProductsToSupabase(ids) {
+  const client = setupSupabase();
+  if (!client) return;
+
+  try {
+    const { error } = await client.from(SUPABASE_SETTINGS_TABLE).upsert({
+      id: SUPABASE_DELETED_PRODUCTS_ID,
+      data: { ids: Array.from(new Set(ids)) },
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "id" });
+    if (error) throw error;
+  } catch (error) {
+    console.warn("Supabase deleted product sync failed. Local copy is saved.", error);
+  }
+}
+
+async function fetchDeletedProductsFromSupabase() {
+  const client = setupSupabase();
+  if (!client) return [];
+
+  try {
+    const { data, error } = await client
+      .from(SUPABASE_SETTINGS_TABLE)
+      .select("data")
+      .eq("id", SUPABASE_DELETED_PRODUCTS_ID)
+      .maybeSingle();
+    if (error) throw error;
+    return data?.data?.ids || [];
+  } catch (error) {
+    console.warn("Supabase deleted product fetch failed. Using localStorage fallback.", error);
+    return [];
+  }
+}
+
+async function hydrateSupabaseData() {
+  const client = setupSupabase();
+  if (!client) return false;
+
+  try {
+    const [products, orders, deletedIds] = await Promise.all([
+      fetchSupabaseTable(SUPABASE_PRODUCTS_TABLE),
+      fetchSupabaseTable(SUPABASE_ORDERS_TABLE),
+      fetchDeletedProductsFromSupabase(),
+    ]);
+
+    const localProducts = getAdminProducts();
+    const localOrders = getOrders();
+    const localDeletedIds = getDeletedProductIds();
+
+    if (products.length || !localProducts.length) {
+      localStorage.setItem(ADMIN_PRODUCTS_KEY, JSON.stringify(products));
+    } else {
+      syncTableToSupabase(SUPABASE_PRODUCTS_TABLE, localProducts, []);
+    }
+
+    if (orders.length || !localOrders.length) {
+      localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+    } else {
+      syncTableToSupabase(SUPABASE_ORDERS_TABLE, localOrders, []);
+    }
+
+    if (deletedIds.length || !localDeletedIds.length) {
+      localStorage.setItem(DELETED_PRODUCTS_KEY, JSON.stringify(deletedIds));
+    } else {
+      syncDeletedProductsToSupabase(localDeletedIds);
+    }
+    return true;
+  } catch (error) {
+    console.warn("Supabase hydration failed. Using localStorage fallback.", error);
+    return false;
+  }
+}
+function getAdminProducts() {
+  try {
+    return JSON.parse(localStorage.getItem(ADMIN_PRODUCTS_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveAdminProducts(products) {
+  const previousProducts = getAdminProducts();
+  localStorage.setItem(ADMIN_PRODUCTS_KEY, JSON.stringify(products));
+  syncTableToSupabase(SUPABASE_PRODUCTS_TABLE, products, previousProducts);
+}
+
+function getDeletedProductIds() {
+  try {
+    return JSON.parse(localStorage.getItem(DELETED_PRODUCTS_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveDeletedProductIds(ids) {
+  const deletedIds = Array.from(new Set(ids));
+  localStorage.setItem(DELETED_PRODUCTS_KEY, JSON.stringify(deletedIds));
+  syncDeletedProductsToSupabase(deletedIds);
+}
+
+function getProducts() {
+  const adminProducts = getAdminProducts();
+  const productMap = new Map(PRODUCTS.map((product) => [product.id, product]));
+  adminProducts.forEach((product) => {
+    productMap.set(product.id, product);
+  });
+  const deletedIds = new Set(getDeletedProductIds());
+  return Array.from(productMap.values()).filter((product) => !deletedIds.has(product.id));
+}
+
+function getOrders() {
+  try {
+    return JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveOrders(orders) {
+  const previousOrders = getOrders();
+  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
+  syncTableToSupabase(SUPABASE_ORDERS_TABLE, orders, previousOrders);
+}
+
+function createOrderId() {
+  const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, "");
+  const randomPart = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `DRS-${datePart}-${randomPart}`;
+}
+
+function slugify(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function calculateOffer(price, originalPrice) {
+  const savings = Number(originalPrice) - Number(price);
+  return savings > 0 ? `Save ${currency.format(savings)}` : "";
+}
+
+function orderStatusMeta(status) {
+  const statusMap = {
+    "Order Placed": {
+      shippingStatus: "Preparing order",
+      location: "DRS Supplements",
+      trackingNote: "Your order has been received by DRS Supplements.",
+    },
+    Confirmed: {
+      shippingStatus: "Confirmed",
+      location: "DRS Supplements",
+      trackingNote: "Your order has been confirmed and will be packed shortly.",
+    },
+    Packed: {
+      shippingStatus: "Packed",
+      location: "DRS Supplements",
+      trackingNote: "Your order is packed and ready for dispatch.",
+    },
+    Shipped: {
+      shippingStatus: "Shipped",
+      location: "In transit",
+      trackingNote: "Your order has been shipped.",
+    },
+    "Out for Delivery": {
+      shippingStatus: "Out for Delivery",
+      location: "Near delivery area",
+      trackingNote: "Your order is out for delivery.",
+    },
+    Delivered: {
+      shippingStatus: "Delivered",
+      location: "Delivered to customer",
+      trackingNote: "Your order has been delivered.",
+    },
+    Cancelled: {
+      shippingStatus: "Cancelled",
+      location: "Order cancelled",
+      trackingNote: "This order has been cancelled.",
+    },
+  };
+  return statusMap[status] || statusMap["Order Placed"];
+}
 
 function getCart() {
   return JSON.parse(localStorage.getItem("drsCart") || "[]");
@@ -279,7 +582,7 @@ function updateCartCount() {
 }
 
 function addToCart(productId, button) {
-  const product = PRODUCTS.find((item) => item.id === productId);
+  const product = getProducts().find((item) => item.id === productId);
   if (!product) return;
 
   const cart = getCart();
@@ -304,6 +607,7 @@ function addToCart(productId, button) {
 }
 
 function productCard(product) {
+  const flavourText = product.flavours?.length ? product.flavours.slice(0, 3).join(", ") : "";
   const productImage = product.image
     ? `<img src="${product.image}" alt="${product.name}">`
     : `
@@ -313,7 +617,7 @@ function productCard(product) {
       `;
 
   return `
-    <article class="card product-card pro-product-card" data-category="${product.category}" data-name="${product.name.toLowerCase()} ${product.brand.toLowerCase()}">
+    <article class="card product-card pro-product-card" data-category="${product.category}" data-name="${product.name.toLowerCase()} ${product.brand.toLowerCase()} ${product.size.toLowerCase()} ${flavourText.toLowerCase()}">
       <a class="product-img product-pack ${product.image ? "has-product-image" : ""}" href="product-detail.html?id=${product.id}" aria-label="View ${product.name}">
         <span class="offer-badge">${product.offer}</span>
         ${productImage}
@@ -324,6 +628,7 @@ function productCard(product) {
         </div>
         <h3><a href="product-detail.html?id=${product.id}">${product.name}</a></h3>
         <p class="muted">${product.brand} · ${product.size} · ${product.label}</p>
+        ${flavourText ? `<p class="product-flavours">Flavours: ${flavourText}</p>` : ""}
         <div class="price-row">
           <div>
             <strong class="price">${currency.format(product.price)}</strong>
@@ -343,7 +648,8 @@ function productCard(product) {
 function renderProducts(limit) {
   const target = document.querySelector("[data-products]");
   if (!target) return;
-  const products = typeof limit === "number" ? PRODUCTS.slice(0, limit) : PRODUCTS;
+  const allProducts = getProducts();
+  const products = typeof limit === "number" ? allProducts.slice(0, limit) : allProducts;
   target.innerHTML = products.map(productCard).join("");
 }
 
@@ -378,9 +684,10 @@ function setupProductSearch() {
 
 function getOrderContext() {
   const cart = getCart();
+  const products = getProducts();
   const items = cart
     .map((entry) => {
-      const product = PRODUCTS.find((item) => item.id === entry.id);
+      const product = products.find((item) => item.id === entry.id);
       if (!product) return null;
       return {
         ...product,
@@ -604,6 +911,39 @@ function setupCheckoutPage() {
         return;
       }
 
+      const orderContext = getOrderContext();
+      const orderId = createOrderId();
+      const order = {
+        id: orderId,
+        createdAt: new Date().toISOString(),
+        customer: {
+          fullName,
+          phoneNumber,
+          address,
+          pincode,
+        },
+        paymentMethod,
+        paymentStatus: paymentMethod === "COD" ? "Pending COD" : "Paid",
+        orderStatus: "Order Placed",
+        shippingStatus: "Preparing order",
+        trackingNote: "Your order has been received by DRS Supplements.",
+        location: "DRS Supplements",
+        items: orderContext.items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          brand: item.brand,
+          size: item.size,
+          qty: item.qty,
+          price: item.price,
+          lineTotal: item.lineTotal,
+        })),
+        subtotal: orderContext.subtotal,
+        shipping: orderContext.shipping,
+        total: orderContext.total,
+      };
+      saveOrders([order, ...getOrders().filter((item) => item.id !== order.id)]);
+
+      const receiptOrderId = document.querySelector("[data-receipt-order-id]");
       const receiptName = document.querySelector("[data-receipt-name]");
       const receiptPhone = document.querySelector("[data-receipt-phone]");
       const receiptAddress = document.querySelector("[data-receipt-address]");
@@ -611,15 +951,16 @@ function setupCheckoutPage() {
       const receiptPayment = document.querySelector("[data-receipt-payment]");
       const receiptTotal = document.querySelector("[data-receipt-total]");
       const receiptTotalBottom = document.querySelector("[data-receipt-total-bottom]");
+      if (receiptOrderId) receiptOrderId.textContent = orderId;
       if (receiptName) receiptName.textContent = fullName;
       if (receiptPhone) receiptPhone.textContent = phoneNumber;
       if (receiptAddress) receiptAddress.textContent = address;
       if (receiptPincode) receiptPincode.textContent = pincode;
       if (receiptPayment) receiptPayment.textContent = paymentMethod;
-      if (receiptTotal) receiptTotal.textContent = currency.format(getOrderContext().total);
-      if (receiptTotalBottom) receiptTotalBottom.textContent = currency.format(getOrderContext().total);
+      if (receiptTotal) receiptTotal.textContent = currency.format(orderContext.total);
+      if (receiptTotalBottom) receiptTotalBottom.textContent = currency.format(orderContext.total);
 
-      setInlineMessage("Order ready. Print the receipt or save the details.", "success");
+      setInlineMessage(`Order placed. Order ID: ${orderId}. Customer can track it from Track Order page.`, "success");
       if (receiptPreview) {
         receiptPreview.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -660,16 +1001,45 @@ function renderProductDetail() {
   if (!target) return;
 
   const params = new URLSearchParams(window.location.search);
-  const product = PRODUCTS.find((item) => item.id === params.get("id")) || PRODUCTS[0];
+  const products = getProducts();
+  const product = products.find((item) => item.id === params.get("id")) || products[0];
+  const variants = product.variantGroup
+    ? products.filter((item) => item.variantGroup === product.variantGroup)
+    : [];
+  const variantMarkup = variants.length > 1
+    ? `
+        <div class="variant-panel">
+          <span class="variant-label">Weight</span>
+          <div class="variant-options">
+            ${variants.map((variant) => `
+              <a class="variant-chip ${variant.id === product.id ? "active" : ""}" href="product-detail.html?id=${variant.id}">
+                ${variant.size}
+                <small>${currency.format(variant.price)}</small>
+              </a>
+            `).join("")}
+          </div>
+        </div>
+      `
+    : "";
+  const flavourMarkup = product.flavours?.length
+    ? `
+        <div class="variant-panel">
+          <span class="variant-label">Flavours</span>
+          <div class="flavour-options">
+            ${product.flavours.map((flavour) => `<button class="flavour-chip" type="button">${flavour}</button>`).join("")}
+          </div>
+        </div>
+      `
+    : "";
   document.title = `${product.name} | DRS Supplements`;
   const galleryImages = product.images || (product.image ? [product.image] : []);
   const galleryMarkup = galleryImages.length
     ? `
         <div class="detail-image-main">
-          <img src="${galleryImages[0]}" alt="${product.name}">
+          <img src="${galleryImages[0]}" alt="${product.name}" data-gallery-main>
         </div>
         <div class="detail-thumbs">
-          ${galleryImages.map((image, index) => `<img src="${image}" alt="${product.name} view ${index + 1}">`).join("")}
+          ${galleryImages.map((image, index) => `<button class="detail-thumb ${index === 0 ? "active" : ""}" type="button" data-gallery-thumb="${image}" aria-label="${product.name} view ${index + 1}"><img src="${image}" alt="${product.name} view ${index + 1}"></button>`).join("")}
         </div>
       `
     : `
@@ -697,6 +1067,8 @@ function renderProductDetail() {
           <span class="offer-chip">${product.offer}</span>
         </div>
         <p><span class="stock">${product.stock}</span></p>
+        ${variantMarkup}
+        ${flavourMarkup}
         <div class="actions">
           <button class="btn btn-primary" type="button" onclick="addToCart('${product.id}', this)">Add to Cart</button>
           <a class="btn btn-outline" href="https://wa.me/917010349305?text=I%20want%20to%20order%20${encodeURIComponent(product.name)}" target="_blank" rel="noopener">WhatsApp Order</a>
@@ -716,10 +1088,36 @@ function renderProductDetail() {
       </div>
     </div>
   `;
+  setupDetailGallery();
+}
+
+function setupDetailGallery() {
+  const mainImage = document.querySelector("[data-gallery-main]");
+  const thumbs = Array.from(document.querySelectorAll("[data-gallery-thumb]"));
+  if (!mainImage || !thumbs.length) return;
+
+  let activeIndex = 0;
+  const setImage = (index) => {
+    activeIndex = index;
+    mainImage.src = thumbs[activeIndex].dataset.galleryThumb;
+    thumbs.forEach((thumb, thumbIndex) => {
+      thumb.classList.toggle("active", thumbIndex === activeIndex);
+    });
+  };
+
+  thumbs.forEach((thumb, index) => {
+    thumb.addEventListener("click", () => setImage(index));
+  });
+
+  if (thumbs.length > 1) {
+    setInterval(() => {
+      setImage((activeIndex + 1) % thumbs.length);
+    }, 2600);
+  }
 }
 
 function cartItemMarkup(item) {
-  const product = PRODUCTS.find((entry) => entry.id === item.id);
+  const product = getProducts().find((entry) => entry.id === item.id);
   if (!product) return "";
 
   const thumbnail = product.image
@@ -778,8 +1176,9 @@ function renderCart() {
   }
 
   let subtotal = 0;
+  const products = getProducts();
   itemsTarget.innerHTML = cart.map((item) => {
-    const product = PRODUCTS.find((entry) => entry.id === item.id);
+    const product = products.find((entry) => entry.id === item.id);
     if (!product) return "";
     const lineTotal = product.price * item.qty;
     subtotal += lineTotal;
@@ -809,7 +1208,375 @@ function removeItem(productId) {
   renderCart();
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function textToList(value) {
+  return value
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function csvToList(value) {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      resolve("");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+function isCloudinaryConfigured() {
+  const config = window.DRS_CLOUDINARY_CONFIG;
+  return Boolean(
+    config &&
+    config.cloudName &&
+    config.uploadPreset &&
+    !String(config.cloudName).startsWith("PASTE_") &&
+    !String(config.uploadPreset).startsWith("PASTE_")
+  );
+}
+
+async function uploadImageToCloudinary(file) {
+  if (!file) return "";
+  const config = window.DRS_CLOUDINARY_CONFIG;
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", config.uploadPreset);
+  if (config.folder) {
+    formData.append("folder", config.folder);
+  }
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Cloudinary upload failed");
+  }
+
+  const data = await response.json();
+  return data.secure_url || "";
+}
+
+async function uploadProductImage(file) {
+  if (!file) return "";
+
+  if (!isCloudinaryConfigured()) {
+    return fileToDataUrl(file);
+  }
+
+  try {
+    return await uploadImageToCloudinary(file);
+  } catch (error) {
+    console.warn("Cloudinary upload failed. Using local image fallback.", error);
+    return fileToDataUrl(file);
+  }
+}
+
+function renderAdminProductList() {
+  const list = document.querySelector("[data-admin-products]");
+  if (!list) return;
+
+  list.innerHTML = getProducts().map((product) => `
+    <button class="admin-product-row" type="button" data-admin-edit="${product.id}">
+      <span>${product.name}</span>
+      <small>${product.size} · ${currency.format(product.price)}</small>
+    </button>
+  `).join("");
+
+  list.querySelectorAll("[data-admin-edit]").forEach((button) => {
+    button.addEventListener("click", () => loadAdminProduct(button.dataset.adminEdit));
+  });
+}
+
+function loadAdminProduct(productId) {
+  const form = document.querySelector("[data-admin-form]");
+  if (!form) return;
+
+  const product = getProducts().find((item) => item.id === productId);
+  if (!product) return;
+
+  form.elements.id.value = product.id;
+  form.elements.name.value = product.name || "";
+  form.elements.category.value = product.category || "";
+  form.elements.brand.value = product.brand || "";
+  form.elements.variantGroup.value = product.variantGroup || "";
+  form.elements.size.value = product.size || "";
+  form.elements.price.value = product.price || "";
+  form.elements.originalPrice.value = product.originalPrice || "";
+  form.elements.label.value = product.label || "";
+  form.elements.stock.value = product.stock || "";
+  form.elements.image.value = product.image || "";
+  form.elements.images.value = (product.images || []).join("\n");
+  form.elements.flavours.value = (product.flavours || []).join(", ");
+  form.elements.description.value = product.description || "";
+  form.elements.details.value = (product.details || []).join("\n");
+  form.elements.specs.value = (product.specs || []).join("\n");
+  document.querySelector("[data-admin-message]").textContent = `Editing ${product.name}`;
+}
+
+function clearAdminForm() {
+  const form = document.querySelector("[data-admin-form]");
+  if (!form) return;
+  form.reset();
+  form.elements.id.value = "";
+  document.querySelector("[data-admin-message]").textContent = "Ready to add a new product.";
+}
+
+function setupAdminPage() {
+  const form = document.querySelector("[data-admin-form]");
+  if (!form) return;
+
+  renderAdminProductList();
+  renderAdminOrders();
+
+  document.querySelector("[data-admin-new]")?.addEventListener("click", clearAdminForm);
+  document.querySelector("[data-admin-delete]")?.addEventListener("click", () => {
+    const productId = form.elements.id.value.trim();
+    if (!productId) {
+      document.querySelector("[data-admin-message]").textContent = "Select a product before deleting.";
+      return;
+    }
+
+    saveAdminProducts(getAdminProducts().filter((item) => item.id !== productId));
+    saveDeletedProductIds([...getDeletedProductIds(), productId]);
+    saveCart(getCart().filter((item) => item.id !== productId));
+    clearAdminForm();
+    renderAdminProductList();
+    document.querySelector("[data-admin-message]").textContent = "Product deleted from product pages.";
+  });
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const name = String(formData.get("name") || "").trim();
+    const size = String(formData.get("size") || "").trim();
+    const id = slugify(formData.get("id")) || slugify(`${name} ${size}`);
+
+    if (!id || !name) {
+      document.querySelector("[data-admin-message]").textContent = "Product name is required.";
+      return;
+    }
+
+    document.querySelector("[data-admin-message]").textContent = isCloudinaryConfigured()
+      ? "Uploading images to Cloudinary..."
+      : "Preparing images...";
+
+    const uploadedMainImage = await uploadProductImage(form.elements.imageFile.files[0]);
+    const uploadedImages = await Promise.all(Array.from(form.elements.imageFiles.files).map(uploadProductImage));
+    const imagePaths = textToList(String(formData.get("images") || ""));
+    const typedMainImage = String(formData.get("image") || "").trim();
+    const image = uploadedMainImage || typedMainImage || imagePaths[0] || uploadedImages[0] || "";
+    const images = Array.from(new Set([
+      image,
+      ...imagePaths,
+      ...uploadedImages.filter(Boolean),
+    ].filter(Boolean)));
+    const product = {
+      id,
+      name,
+      category: String(formData.get("category") || "").trim(),
+      brand: String(formData.get("brand") || "").trim(),
+      variantGroup: String(formData.get("variantGroup") || "").trim(),
+      price: Number(formData.get("price")) || 0,
+      originalPrice: Number(formData.get("originalPrice")) || 0,
+      size,
+      label: String(formData.get("label") || "").trim(),
+      offer: calculateOffer(Number(formData.get("price")) || 0, Number(formData.get("originalPrice")) || 0),
+      stock: String(formData.get("stock") || "In stock").trim(),
+      imageLabel: String(formData.get("brand") || "DRS").trim().slice(0, 10).toUpperCase(),
+      image,
+      images: images.length ? images : image ? [image] : [],
+      flavours: csvToList(String(formData.get("flavours") || "")),
+      description: String(formData.get("description") || "").trim(),
+      details: textToList(String(formData.get("details") || "")),
+      specs: textToList(String(formData.get("specs") || "")),
+    };
+
+    const adminProducts = getAdminProducts().filter((item) => item.id !== id);
+    adminProducts.push(product);
+    saveAdminProducts(adminProducts);
+    saveDeletedProductIds(getDeletedProductIds().filter((deletedId) => deletedId !== id));
+    renderAdminProductList();
+    loadAdminProduct(id);
+    document.querySelector("[data-admin-message]").textContent = `${product.name} saved. Product pages now use this data.`;
+  });
+
+  setupAdminOrderForm();
+}
+
+function renderAdminOrders() {
+  const list = document.querySelector("[data-admin-orders]");
+  if (!list) return;
+
+  const orders = getOrders();
+  if (!orders.length) {
+    list.innerHTML = `<div class="empty-state">No customer orders yet.</div>`;
+    return;
+  }
+
+  list.innerHTML = `
+    <div class="admin-orders-table">
+      <div class="admin-orders-head">
+        <span>Order ID</span>
+        <span>Customer</span>
+        <span>Phone</span>
+        <span>Total</span>
+        <span>Payment</span>
+        <span>Status</span>
+        <span>Date</span>
+        <span>Actions</span>
+      </div>
+      ${orders.map((order) => `
+        <div class="admin-orders-row">
+          <strong>${order.id}</strong>
+          <span>${order.customer.fullName}</span>
+          <span>${order.customer.phoneNumber}</span>
+          <strong>${currency.format(order.total)}</strong>
+          <span>${order.paymentMethod}</span>
+          <select data-admin-order-status="${order.id}">
+            ${["Order Placed", "Confirmed", "Packed", "Shipped", "Out for Delivery", "Delivered", "Cancelled"].map((status) => `
+              <option value="${status}" ${status === order.orderStatus ? "selected" : ""}>${status}</option>
+            `).join("")}
+          </select>
+          <span>${new Date(order.createdAt).toLocaleDateString("en-IN")}</span>
+          <div class="admin-table-actions">
+            <button class="btn btn-outline btn-sm" type="button" data-admin-order-view="${order.id}">View</button>
+            <button class="btn btn-outline btn-sm danger-action" type="button" data-admin-order-delete="${order.id}">Delete</button>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  list.querySelectorAll("[data-admin-order-status]").forEach((select) => {
+    select.addEventListener("change", () => updateOrderStatus(select.dataset.adminOrderStatus, select.value));
+  });
+
+  list.querySelectorAll("[data-admin-order-view]").forEach((button) => {
+    button.addEventListener("click", () => loadAdminOrder(button.dataset.adminOrderView));
+  });
+
+  list.querySelectorAll("[data-admin-order-delete]").forEach((button) => {
+    button.addEventListener("click", () => deleteOrder(button.dataset.adminOrderDelete));
+  });
+}
+
+function loadAdminOrder(orderId) {
+  const preview = document.querySelector("[data-admin-order-preview]");
+  const message = document.querySelector("[data-admin-order-message]");
+  if (!preview) return;
+
+  const order = getOrders().find((item) => item.id === orderId);
+  if (!order) return;
+
+  preview.innerHTML = `
+    <div class="tracking-head">
+      <div>
+        <p class="eyebrow">Order Details</p>
+        <h3>${order.id}</h3>
+      </div>
+      <span class="offer-chip">${order.orderStatus}</span>
+    </div>
+    <div class="tracking-grid">
+      <div><span>Customer</span><strong>${order.customer.fullName}</strong></div>
+      <div><span>Phone</span><strong>${order.customer.phoneNumber}</strong></div>
+      <div><span>Address</span><strong>${order.customer.address}, ${order.customer.pincode}</strong></div>
+      <div><span>Payment</span><strong>${order.paymentStatus}</strong></div>
+      <div><span>Shipping</span><strong>${order.shippingStatus}</strong></div>
+      <div><span>Location</span><strong>${order.location}</strong></div>
+    </div>
+    <strong>Order Items</strong>
+    ${order.items.map((item) => `<p>${item.name} - ${item.size || ""} - Qty ${item.qty} - ${currency.format(item.lineTotal)}</p>`).join("")}
+    <strong>Total: ${currency.format(order.total)}</strong>
+    <p>${order.trackingNote}</p>
+  `;
+  if (message) {
+    message.textContent = `Viewing order ${order.id}`;
+  }
+}
+
+function updateOrderStatus(orderId, status) {
+  const meta = orderStatusMeta(status);
+  const orders = getOrders().map((order) => {
+    if (order.id !== orderId) return order;
+    return {
+      ...order,
+      orderStatus: status,
+      shippingStatus: meta.shippingStatus,
+      location: meta.location,
+      trackingNote: meta.trackingNote,
+      updatedAt: new Date().toISOString(),
+    };
+  });
+  saveOrders(orders);
+  renderAdminOrders();
+  loadAdminOrder(orderId);
+  document.querySelector("[data-admin-order-message]").textContent = `Order ${orderId} updated to ${status}.`;
+}
+
+function deleteOrder(orderId) {
+  saveOrders(getOrders().filter((order) => order.id !== orderId));
+  const preview = document.querySelector("[data-admin-order-preview]");
+  if (preview) preview.innerHTML = "";
+  document.querySelector("[data-admin-order-message]").textContent = "Order deleted.";
+  renderAdminOrders();
+}
+
+function setupAdminOrderForm() {
+  renderAdminOrders();
+}
+
+function setupTrackPage() {
+  const form = document.querySelector("[data-track-form]");
+  const result = document.querySelector("[data-track-result]");
+  if (!form || !result) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const orderId = String(new FormData(form).get("orderId") || "").trim().toUpperCase();
+    const order = getOrders().find((item) => item.id.toUpperCase() === orderId);
+    if (!order) {
+      result.innerHTML = `<div class="empty-state">Order not found. Check the order ID and try again.</div>`;
+      return;
+    }
+
+    result.innerHTML = `
+      <article class="tracking-card">
+        <div class="tracking-head">
+          <div>
+            <p class="eyebrow">Order ID</p>
+            <h2>${order.id}</h2>
+          </div>
+          <span class="offer-chip">${order.orderStatus}</span>
+        </div>
+        <div class="tracking-grid">
+          <div><span>Customer</span><strong>${order.customer.fullName}</strong></div>
+          <div><span>Payment</span><strong>${order.paymentStatus}</strong></div>
+          <div><span>Shipping</span><strong>${order.shippingStatus}</strong></div>
+          <div><span>Location</span><strong>${order.location}</strong></div>
+          <div><span>Total</span><strong>${currency.format(order.total)}</strong></div>
+        </div>
+        <p>${order.trackingNote}</p>
+      </article>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await hydrateSupabaseData();
   updateCartCount();
   setupMobileMenu();
   renderProducts(document.body.dataset.page === "home" ? 3 : undefined);
@@ -818,4 +1585,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProductDetail();
   setupCheckoutPage();
   renderCart();
+  setupAdminPage();
+  setupTrackPage();
 });
+

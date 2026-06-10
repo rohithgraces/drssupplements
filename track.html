@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order | DRS Supplements</title>
+  <meta name="description" content="Track DRS Supplements order status by order ID.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+      <a class="brand" href="index.html" aria-label="DRS Supplements"><img class="brand-logo-image" src="assets/brand/drs-logo-wide.png" alt="DRS Supplements"></a>
+      <div class="nav-actions">
+        <a class="cart-link nav-cart" href="cart.html" aria-label="Cart">
+          <svg class="cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h15l-1.5 8h-11z"></path>
+            <path d="M6 7l-1-3H2"></path>
+            <circle cx="10" cy="19" r="1.2"></circle>
+            <circle cx="18" cy="19" r="1.2"></circle>
+          </svg>
+          <span class="cart-count" data-cart-count>0</span>
+        </a>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a class="active" href="track.html">Track</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero compact-hero">
+      <div class="container">
+        <p class="eyebrow">Order Tracking</p>
+        <h1>Track your order</h1>
+        <p class="lead">Enter your DRS order ID to check delivery status and current location.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container track-layout">
+        <form class="card track-form" data-track-form>
+          <label class="field">
+            <span>Order ID</span>
+            <input name="orderId" type="text" placeholder="DRS-260609-ABCD" required>
+          </label>
+          <button class="btn btn-primary" type="submit">Track Order</button>
+        </form>
+        <div data-track-result></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-center">
+      <p>&copy; 2025 DRS Supplements. All rights reserved.</p>
+      <p>One Stop for All Your Supplement Needs</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="cloudinary-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
