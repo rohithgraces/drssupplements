@@ -138,11 +138,39 @@
           </label>
 
           <div class="actions">
+            <button class="btn btn-outline" type="button" data-admin-home-toggle>Add to Home</button>
             <button class="btn btn-primary" type="submit">Save Product</button>
             <button class="btn btn-outline" type="button" data-admin-delete>Delete Product</button>
             <a class="btn btn-outline" href="products.html">View Products</a>
           </div>
         </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="admin-panel admin-form">
+          <div class="section-head compact-head">
+            <div>
+              <p class="eyebrow">Homepage</p>
+              <h2>Site settings</h2>
+            </div>
+          </div>
+          <p class="inline-message" data-home-settings-message>Choose home products and edit category sections.</p>
+          <label class="field">
+            <span>Product Range Cards</span>
+            <textarea data-home-categories-input rows="8" placeholder="Protein | Whey and plant-based proteins for muscle building and recovery."></textarea>
+            <span class="field-hint">One category per line. Format: Name | Description</span>
+          </label>
+          <label class="field">
+            <span>Shop Category Filters</span>
+            <textarea data-shop-filters-input rows="5" placeholder="All&#10;Whey Protein&#10;Whey 1kg&#10;Mass Gainer"></textarea>
+            <span class="field-hint">One filter name per line. Keep All as first line.</span>
+          </label>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" data-save-home-settings>Save Site Settings</button>
+          </div>
+        </div>
       </div>
     </section>
 

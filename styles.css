@@ -98,8 +98,7 @@ img {
 }
 
 .header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 20;
   background: #000000;
   backdrop-filter: none;
@@ -112,27 +111,28 @@ img {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 14px 0;
-  min-height: 106px;
+  padding: 8px 0;
+  min-height: 82px;
 }
 
 .menu-toggle {
   display: none;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   padding: 0;
-  border: 1px solid rgba(244, 196, 48, 0.35);
-  border-radius: 12px;
-  background: #1b130c;
+  border: 1px solid rgba(244, 196, 48, 0.42);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #19120b, #070707);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   cursor: pointer;
 }
 
 .menu-toggle span {
   display: block;
-  width: 18px;
+  width: 22px;
   height: 2px;
-  margin: 4px auto;
-  background: #ffffff;
+  margin: 3px auto;
+  background: #f7ead0;
   border-radius: 99px;
 }
 
@@ -155,8 +155,8 @@ img {
 
 .brand-logo-image {
   display: block;
-  width: 214px;
-  height: 94px;
+  width: 176px;
+  height: 78px;
   object-fit: contain;
   object-position: center;
   transform: none;
@@ -329,13 +329,11 @@ h3 {
 
 .hero-product-carousel {
   overflow: hidden;
-  min-height: 430px;
-  border-radius: 28px;
-  background:
-    radial-gradient(circle at 70% 30%, rgba(244, 196, 48, 0.25), transparent 32%),
-    linear-gradient(145deg, #fffaf0, #e7d6b7);
-  border: 1px solid rgba(155, 108, 0, 0.24);
-  box-shadow: var(--shadow);
+  min-height: 410px;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   display: flex;
   align-items: center;
 }
@@ -343,9 +341,9 @@ h3 {
 .hero-product-track {
   display: flex;
   width: max-content;
-  gap: 26px;
-  padding: 24px;
-  animation: hero-products 18s linear infinite;
+  gap: 22px;
+  padding: 18px 0;
+  animation: hero-products 28s linear infinite;
 }
 
 .hero-product-slide {
@@ -354,9 +352,10 @@ h3 {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #fffaf0 100%);
   border-radius: 24px;
   padding: 18px;
+  box-shadow: 0 18px 46px rgba(73, 49, 18, 0.16);
 }
 
 .hero-product-slide img {
@@ -389,6 +388,11 @@ h3 {
   justify-content: space-between;
   gap: 24px;
   margin-bottom: 34px;
+}
+
+.section-head.centered {
+  justify-content: center;
+  text-align: center;
 }
 
 .section-head p {
@@ -497,6 +501,8 @@ h3 {
 }
 
 .what-we-do .section-head {
+  justify-content: center;
+  text-align: center;
   margin-bottom: 30px;
 }
 
@@ -762,112 +768,172 @@ h3 {
   color: var(--accent-dark);
 }
 
-.brand-marquee {
-  position: relative;
+.brands {
+  background: linear-gradient(180deg, #f4e4bf 0%, #fffaf0 100%);
+  color: var(--text);
   overflow: hidden;
-  padding: 26px 0 10px;
+  padding: 18px 0 28px;
 }
 
-.brand-marquee::before,
-.brand-marquee::after {
+.section-title {
+  margin: 0 0 18px;
+  text-align: center;
+  font-size: clamp(24px, 2.3vw, 34px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #233c60;
+}
+
+.brand-carousel {
+  position: relative;
+  overflow: hidden;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 10px 16px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.36), rgba(255, 249, 240, 0.58));
+  border: 1px solid rgba(155, 108, 0, 0.09);
+  box-shadow: 0 18px 48px rgba(99, 72, 28, 0.08);
+}
+
+.brand-carousel::before,
+.brand-carousel::after {
   content: "";
   position: absolute;
   top: 0;
   z-index: 2;
-  width: 120px;
+  width: 72px;
   height: 100%;
   pointer-events: none;
 }
 
-.brand-marquee::before {
+.brand-carousel::before {
   left: 0;
-  background: linear-gradient(90deg, #ead8b5, rgba(234, 216, 181, 0));
+  background: linear-gradient(90deg, #f4e4bf, rgba(244, 228, 191, 0));
 }
 
-.brand-marquee::after {
+.brand-carousel::after {
   right: 0;
-  background: linear-gradient(270deg, #ead8b5, rgba(234, 216, 181, 0));
+  background: linear-gradient(270deg, #f4e4bf, rgba(244, 228, 191, 0));
 }
 
-.brand-track {
+.brands .brand-track {
   display: flex;
   width: max-content;
-  gap: 34px;
-  animation: brands-left-to-right 24s linear infinite;
+  gap: 14px;
+  animation: brand-scroll 26s linear infinite;
 }
 
-.brand-marquee:hover .brand-track {
+.brand-carousel:hover .brand-track {
   animation-play-state: paused;
 }
 
-.brand-logo {
-  width: 160px;
-  height: 86px;
+.brand-item {
+  width: 158px;
+  height: 84px;
   flex: 0 0 auto;
+  padding: 8px 12px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #fffdf7 100%);
+  border: 1px solid rgba(73, 49, 18, 0.08);
+  box-shadow: 0 10px 24px rgba(73, 49, 18, 0.07);
+  overflow: hidden;
+}
+
+.brand-link {
   display: grid;
   place-items: center;
-  background: #ffffff;
-  color: #4a4a4a;
-  border-radius: 14px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
-  font-weight: 1000;
-  text-align: center;
-  filter: grayscale(1);
+  width: 100%;
+  height: 100%;
 }
 
-.brand-logo small {
+.brand-link img {
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+  object-position: center;
   display: block;
-  font-size: 9px;
-  letter-spacing: 0.04em;
 }
 
-.brand-logo.labrada {
-  font-family: Georgia, serif;
-  font-size: 19px;
-  text-decoration: underline;
-  color: #a0a0a0;
+.brand-item.brand-americanz img {
+  width: 92%;
+  height: 92%;
+  transform: none;
 }
 
-.brand-logo.exalt {
-  font-size: 27px;
-  letter-spacing: 0.08em;
+.brand-item.brand-on img,
+.brand-item.brand-qnt img,
+.brand-item.brand-bolt img {
+  width: 80%;
+  height: 80%;
 }
 
-.brand-logo.americanz span {
-  font-size: 40px;
-  line-height: 0.9;
-  letter-spacing: 0;
+.brand-item.brand-exalt img,
+.brand-item.brand-muscletech img {
+  width: 92%;
+  height: 92%;
 }
 
-.brand-logo.on span {
-  font-size: 32px;
-  font-style: italic;
-  line-height: 0.9;
+.brand-item.brand-muscletech img {
+  transform: scale(1.02);
 }
 
-.brand-logo.asitis {
-  font-size: 27px;
-  font-weight: 800;
+.brand-item.brand-atom img {
+  width: 88%;
+  height: 88%;
+  transform: translateY(-8px);
 }
 
-.brand-logo.muscletech {
-  font-size: 20px;
-  letter-spacing: 0;
-}
-
-.brand-logo.atom,
-.brand-logo.qnt {
-  font-size: 30px;
-  letter-spacing: 0.08em;
-}
-
-@keyframes brands-left-to-right {
+@keyframes brand-scroll {
   from {
+    transform: translateX(0);
+  }
+  to {
     transform: translateX(-50%);
   }
+}
 
-  to {
-    transform: translateX(0);
+@media (max-width: 768px) {
+  .brands {
+    padding: 14px 0 24px;
+  }
+
+  .section-title {
+    margin-bottom: 14px;
+    font-size: clamp(20px, 6vw, 28px);
+  }
+
+  .brand-carousel {
+    padding: 12px 8px 14px;
+    border-radius: 22px;
+  }
+
+  .brands .brand-track {
+    gap: 10px;
+  }
+
+  .brand-item {
+    width: 132px;
+    height: 74px;
+    padding: 7px 10px;
+    border-radius: 16px;
+  }
+
+  .brand-link img {
+    width: 86%;
+    height: 86%;
+  }
+
+  .brand-item.brand-americanz img {
+    width: 92%;
+    height: 92%;
+    transform: none;
+  }
+
+  .brand-item.brand-atom img {
+    width: 88%;
+    height: 88%;
+    transform: translateY(-7px);
   }
 }
 
@@ -1352,6 +1418,12 @@ h3 {
 .admin-product-row small {
   color: var(--muted);
   font-weight: 700;
+}
+
+.btn.is-featured {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #16110a;
 }
 
 .admin-order-row {
@@ -1891,18 +1963,33 @@ h3 {
   .nav {
     position: relative;
     display: grid;
-    grid-template-columns: 42px minmax(0, 1fr) auto;
+    grid-template-columns: 46px minmax(0, 1fr) auto;
     grid-template-areas:
       "toggle brand actions"
       "menu menu menu";
     align-items: center;
-    gap: 10px 12px;
+    gap: 8px 10px;
+    min-height: 82px;
+    padding: 8px 0;
   }
 
   .menu-toggle {
     display: inline-grid;
     place-items: center;
     grid-area: toggle;
+    width: 46px;
+    height: 46px;
+    border-radius: 16px;
+    border-color: rgba(244, 196, 48, 0.42);
+    background: linear-gradient(145deg, #19120b, #070707);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  .menu-toggle span {
+    width: 22px;
+    height: 2px;
+    margin: 3px auto;
+    background: #f7ead0;
   }
 
   .brand {
@@ -1919,8 +2006,8 @@ h3 {
   }
 
   .brand-logo-image {
-    width: 148px;
-    height: 76px;
+    width: 136px;
+    height: 62px;
     object-fit: contain;
     transform: none;
   }
@@ -1935,7 +2022,7 @@ h3 {
 
   .nav-cart {
     margin-left: 0;
-    padding: 8px 10px;
+    padding: 7px 10px;
     font-size: 13px;
   }
 
@@ -2072,12 +2159,36 @@ h3 {
   }
 
   .hero-product-carousel {
-    min-height: 300px;
+    min-height: 286px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .hero-product-track {
+    gap: 14px;
+    padding: 8px 0;
   }
 
   .hero-product-slide {
-    width: 220px;
-    height: 260px;
+    width: 210px;
+    height: 258px;
+    border-radius: 24px;
+    padding: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #fffaf0 100%);
+    box-shadow: 0 16px 36px rgba(73, 49, 18, 0.14);
+  }
+
+  .brands-section .section-head {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .brand-marquee {
+    padding-top: 14px;
   }
 
   .checkout-card {

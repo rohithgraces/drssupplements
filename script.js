@@ -8,7 +8,6 @@ const PRODUCTS = [
     originalPrice: 5000,
     size: "5 lb / 2.27 kg",
     label: "25g Protein + EAA + BCAA",
-    offer: "Save ₹201",
     stock: "In stock",
     imageLabel: "WHEY",
     image: "assets/products/americanz-muscle-whey-protein-2kg-front.jpeg",
@@ -40,7 +39,6 @@ const PRODUCTS = [
     originalPrice: 2400,
     size: "1 kg",
     label: "27g Protein + BCAA + EAA",
-    offer: "Save â‚¹401",
     stock: "In stock",
     imageLabel: "ATOM",
     image: "assets/products/atom-whey-enzyme-front.jpeg",
@@ -71,7 +69,6 @@ const PRODUCTS = [
     originalPrice: 4300,
     size: "4.4 lb / 2 kg",
     label: "27g Protein + BCAA + EAA",
-    offer: "Save ₹701",
     stock: "In stock",
     imageLabel: "ATOM",
     image: "assets/products/atom-whey-enzyme-front.jpeg",
@@ -101,7 +98,6 @@ const PRODUCTS = [
     originalPrice: 5500,
     size: "2 kg",
     label: "24g Protein + Amino Acids",
-    offer: "Save ₹1,001",
     stock: "In stock",
     imageLabel: "100%",
     description: "Labrada 100% whey protein for protein intake and essential amino acid support.",
@@ -117,7 +113,6 @@ const PRODUCTS = [
     originalPrice: 2200,
     size: "2 lb / 0.9 kg",
     label: "25g Protein | 6g BCAA",
-    offer: "Save ₹300",
     stock: "In stock",
     imageLabel: "BOLT",
     description: "Bolt whey protein in 2 lb pack for compact protein support and gym recovery.",
@@ -133,7 +128,6 @@ const PRODUCTS = [
     originalPrice: 2699,
     size: "1 kg",
     label: "24g Protein + 5.5g BCAA",
-    offer: "Save ₹300",
     stock: "In stock",
     imageLabel: "EXALT",
     description: "Exalt Priority whey protein for protein intake, amino support and daily training.",
@@ -149,7 +143,6 @@ const PRODUCTS = [
     originalPrice: 2800,
     size: "1 kg",
     label: "25g Protein + EAA + BCAA",
-    offer: "Save ₹400",
     stock: "In stock",
     imageLabel: "AM",
     description: "Americanz Muscle whey protein 1 kg pack for regular protein supplementation.",
@@ -165,7 +158,6 @@ const PRODUCTS = [
     originalPrice: 5800,
     size: "5 lb",
     label: "28g Protein | 7g BCAA",
-    offer: "Save ₹1,100",
     stock: "In stock",
     imageLabel: "ISO",
     description: "Bolt whey isolate 5 lb pack for high protein intake and lean muscle recovery.",
@@ -181,7 +173,6 @@ const PRODUCTS = [
     originalPrice: 6100,
     size: "2 kg",
     label: "27g Protein | 12g EAA",
-    offer: "Save ₹300",
     stock: "In stock",
     imageLabel: "PRO ISO",
     description: "Americanz Muscle Pro Isolate for high-protein recovery and lean training goals.",
@@ -197,7 +188,6 @@ const PRODUCTS = [
     originalPrice: 4500,
     size: "2 kg",
     label: "28g Protein, Lean Muscle Build",
-    offer: "Save ₹1,101",
     stock: "In stock",
     imageLabel: "RIPPED",
     description: "MD Ripped whey protein for protein support and lean muscle build goals.",
@@ -213,7 +203,6 @@ const PRODUCTS = [
     originalPrice: 7000,
     size: "8.81 lb / 4 kg",
     label: "24g Protein, 6.6g BCAA",
-    offer: "Save ₹1,200",
     stock: "In stock",
     imageLabel: "MD",
     description: "MD whey 8.81 lb value pack for regular protein intake and training support.",
@@ -230,7 +219,6 @@ const PRODUCTS = [
     originalPrice: 8400,
     size: "8.8 lb / 4 kg",
     label: "27g Protein + BCAA + EAA",
-    offer: "Save ₹1,700",
     stock: "In stock",
     imageLabel: "ATOM",
     image: "assets/products/atom-whey-enzyme-front.jpeg",
@@ -252,7 +240,6 @@ const PRODUCTS = [
     originalPrice: 4900,
     size: "5 kg",
     label: "1240 kcal, 40g Protein",
-    offer: "Save ₹1,200",
     stock: "In stock",
     imageLabel: "GAINER",
     description: "Labrada Super Mass Gainer for weight gain, calorie surplus and bulking support.",
@@ -268,7 +255,6 @@ const PRODUCTS = [
     originalPrice: 4800,
     size: "11 lb",
     label: "52g Protein",
-    offer: "Save ₹500",
     stock: "In stock",
     imageLabel: "DRS",
     description: "Labrada Mass Gainer 11 lb pack for bulking and high-calorie nutrition support.",
@@ -284,12 +270,252 @@ const PRODUCTS = [
     originalPrice: 5400,
     size: "5 kg",
     label: "60g Protein | 5.5g BCAA",
-    offer: "Save ₹1,000",
     stock: "In stock",
     imageLabel: "GAINER",
     description: "Americanz Muscle Anabolic Gainer for serious bulking and calorie surplus goals.",
     details: ["60g protein", "5.5g BCAA", "Bulking support"],
     specs: ["Category: Mass Gainer 5kg", "Goal: Weight gain", "Pack size: 5 kg", "Brand: Americanz Muscle"],
+  },
+  {
+    id: "muscletech-creatine-300g",
+    name: "MuscleTech Creatine",
+    category: "Creatine 300g",
+    brand: "MuscleTech",
+    price: 950,
+    originalPrice: 1400,
+    size: "300 g",
+    label: "Creatine Monohydrate",
+    stock: "In stock",
+    imageLabel: "CREATINE",
+    description: "MuscleTech creatine 300 g for strength, power output and daily gym performance support.",
+    details: ["300g creatine", "Strength support", "Daily performance"],
+    specs: ["Category: Creatine 300g", "Pack size: 300 g", "Brand: MuscleTech"],
+  },
+  {
+    id: "william-bonac-creatine-300g",
+    name: "William Bonac Creatine",
+    category: "Creatine 300g",
+    brand: "William Bonac",
+    price: 900,
+    originalPrice: 1200,
+    size: "300 g",
+    label: "Creatine Monohydrate",
+    stock: "In stock",
+    imageLabel: "CREATINE",
+    description: "William Bonac creatine 300 g for strength training and workout performance.",
+    details: ["300g creatine", "Power support", "Workout strength"],
+    specs: ["Category: Creatine 300g", "Pack size: 300 g", "Brand: William Bonac"],
+  },
+  {
+    id: "on-creatine-300g",
+    name: "ON Creatine",
+    category: "Creatine 300g",
+    brand: "Optimum Nutrition",
+    price: 850,
+    originalPrice: 1200,
+    size: "300 g",
+    label: "Creatine Monohydrate",
+    stock: "In stock",
+    imageLabel: "ON",
+    description: "Optimum Nutrition creatine 300 g for gym strength and muscle performance support.",
+    details: ["300g creatine", "Strength support", "Performance formula"],
+    specs: ["Category: Creatine 300g", "Pack size: 300 g", "Brand: Optimum Nutrition"],
+  },
+  {
+    id: "mt-mass-gainer-3kg",
+    name: "MT Mass Gainer",
+    category: "Mass 3kg",
+    brand: "MuscleTech",
+    price: 2900,
+    originalPrice: 3200,
+    size: "3 kg",
+    label: "Mass Gainer",
+    stock: "In stock",
+    imageLabel: "MASS",
+    description: "MT mass gainer 3 kg for calorie surplus, weight gain and bulking nutrition support.",
+    details: ["3kg mass gainer", "Weight gain support", "Bulking nutrition"],
+    specs: ["Category: Mass 3kg", "Pack size: 3 kg", "Brand: MuscleTech"],
+  },
+  {
+    id: "americanz-muscle-mass-gainer-3kg",
+    name: "Americanz Muscle Mass Gainer",
+    category: "Mass 3kg",
+    brand: "Americanz Muscle",
+    price: 2400,
+    originalPrice: 2800,
+    size: "3 kg",
+    label: "Mass Gainer",
+    stock: "In stock",
+    imageLabel: "MASS",
+    description: "Americanz Muscle mass gainer 3 kg for healthy weight gain and gym bulking goals.",
+    details: ["3kg mass gainer", "Calorie support", "Bulking goals"],
+    specs: ["Category: Mass 3kg", "Pack size: 3 kg", "Brand: Americanz Muscle"],
+  },
+  {
+    id: "healthfarm-hydragain-mass-gainer-3kg",
+    name: "Healthfarm HydraGain Mass Gainer",
+    category: "Mass 3kg",
+    brand: "Healthfarm",
+    price: 2400,
+    originalPrice: 2900,
+    size: "3 kg",
+    label: "Mass Gainer",
+    stock: "In stock",
+    imageLabel: "MASS",
+    description: "Healthfarm HydraGain mass gainer 3 kg for mass gain and calorie-dense nutrition.",
+    details: ["3kg mass gainer", "Mass gain support", "High-calorie nutrition"],
+    specs: ["Category: Mass 3kg", "Pack size: 3 kg", "Brand: Healthfarm"],
+  },
+  {
+    id: "qnt-creatine-100g",
+    name: "QNT Creatine",
+    category: "Creatine 100g",
+    brand: "QNT",
+    price: 400,
+    originalPrice: 600,
+    size: "100 g",
+    label: "Creatine Monohydrate",
+    stock: "In stock",
+    imageLabel: "QNT",
+    description: "QNT creatine 100 g compact pack for strength and workout performance.",
+    details: ["100g creatine", "Strength support", "Compact pack"],
+    specs: ["Category: Creatine 100g", "Pack size: 100 g", "Brand: QNT"],
+  },
+  {
+    id: "wellcore-creatine-100g",
+    name: "Wellcore Creatine",
+    category: "Creatine 100g",
+    brand: "Wellcore",
+    price: 350,
+    originalPrice: 700,
+    size: "100 g",
+    label: "Creatine Monohydrate",
+    stock: "In stock",
+    imageLabel: "CREATINE",
+    description: "Wellcore creatine 100 g for strength support and daily workout performance.",
+    details: ["100g creatine", "Strength support", "Daily use"],
+    specs: ["Category: Creatine 100g", "Pack size: 100 g", "Brand: Wellcore"],
+  },
+  {
+    id: "americanz-muscle-creatine-100g",
+    name: "Americanz Muscle Creatine",
+    category: "Creatine 100g",
+    brand: "Americanz Muscle",
+    price: 450,
+    originalPrice: 700,
+    size: "100 g",
+    label: "Creatine Monohydrate",
+    stock: "In stock",
+    imageLabel: "AM",
+    description: "Americanz Muscle creatine 100 g for compact strength and power support.",
+    details: ["100g creatine", "Power support", "Workout performance"],
+    specs: ["Category: Creatine 100g", "Pack size: 100 g", "Brand: Americanz Muscle"],
+  },
+  {
+    id: "exalt-iso-priority-whey-protein",
+    name: "Exalt ISO Priority Whey Protein",
+    category: "Whey Isolate",
+    brand: "Exalt",
+    price: 5800,
+    originalPrice: 7000,
+    size: "2 kg",
+    label: "25g Protein, 5.5g BCAA",
+    stock: "In stock",
+    imageLabel: "ISO",
+    description: "Exalt ISO Priority whey protein for lean muscle recovery and high-protein support.",
+    details: ["25g protein", "5.5g BCAA", "Whey isolate support"],
+    specs: ["Category: Whey Isolate", "Pack size: 2 kg", "Brand: Exalt"],
+  },
+  {
+    id: "qnt-prime-triple-whey-protein",
+    name: "QNT Prime Triple Whey Protein",
+    category: "Whey Protein",
+    brand: "QNT",
+    price: 4300,
+    originalPrice: 4999,
+    size: "2 kg",
+    label: "25g Protein, 9.4g BCAA",
+    stock: "In stock",
+    imageLabel: "QNT",
+    description: "QNT Prime Triple whey protein for protein intake, BCAA support and recovery.",
+    details: ["25g protein", "9.4g BCAA", "Recovery support"],
+    specs: ["Category: Whey Protein", "Pack size: 2 kg", "Brand: QNT"],
+  },
+  {
+    id: "exalt-priority-whey-protein-2kg",
+    name: "Exalt The Priority Whey Protein",
+    category: "Whey Protein",
+    brand: "Exalt",
+    variantGroup: "exalt-priority-whey-protein",
+    price: 4899,
+    originalPrice: 5999,
+    size: "2 kg",
+    label: "24g Protein, 5.5g BCAA",
+    stock: "In stock",
+    imageLabel: "EXALT",
+    description: "Exalt The Priority whey protein 2 kg for protein support, BCAA and fitness recovery.",
+    details: ["24g protein", "5.5g BCAA", "Fitness recovery"],
+    specs: ["Category: Whey Protein", "Pack size: 2 kg", "Brand: Exalt"],
+  },
+  {
+    id: "william-bonac-protein-4lb",
+    name: "William Bonac Protein",
+    category: "Whey Protein",
+    brand: "William Bonac",
+    price: 4699,
+    originalPrice: 6799,
+    size: "4 lb",
+    label: "24g Protein, 11.7g EAA",
+    stock: "In stock",
+    imageLabel: "WHEY",
+    description: "William Bonac protein 4 lb for muscle recovery, EAA support and daily training.",
+    details: ["24g protein", "11.7g EAA", "Training recovery"],
+    specs: ["Category: Whey Protein", "Pack size: 4 lb", "Brand: William Bonac"],
+  },
+  {
+    id: "one-science-nitra-whey-protein",
+    name: "One Science Nitra Whey Protein",
+    category: "Whey Protein",
+    brand: "One Science",
+    price: 5500,
+    originalPrice: 5999,
+    size: "2 kg",
+    label: "27g Protein, 3g Creatine",
+    stock: "In stock",
+    imageLabel: "NITRA",
+    description: "One Science Nitra Whey protein with protein and creatine support for workouts.",
+    details: ["27g protein", "3g creatine", "Workout support"],
+    specs: ["Category: Whey Protein", "Pack size: 2 kg", "Brand: One Science"],
+  },
+  {
+    id: "muscletech-nitro-tech-ripped",
+    name: "MuscleTech Nitro Tech Ripped",
+    category: "Whey Protein",
+    brand: "MuscleTech",
+    price: 5499,
+    originalPrice: 6499,
+    size: "2 kg",
+    label: "30g Protein, Lean Muscle Build",
+    stock: "In stock",
+    imageLabel: "NITRO",
+    description: "MuscleTech Nitro Tech Ripped protein for lean muscle build and training recovery.",
+    details: ["30g protein", "Lean muscle build", "Recovery support"],
+    specs: ["Category: Whey Protein", "Pack size: 2 kg", "Brand: MuscleTech"],
+  },
+  {
+    id: "muscletech-nitro-tech-whey",
+    name: "MuscleTech Nitro-Tech Whey",
+    category: "Whey Protein",
+    brand: "MuscleTech",
+    price: 5199,
+    originalPrice: 6299,
+    size: "2 kg",
+    label: "30g Protein",
+    stock: "In stock",
+    imageLabel: "NITRO",
+    description: "MuscleTech Nitro-Tech whey protein for protein intake and muscle recovery support.",
+    details: ["30g protein", "Muscle recovery", "Training support"],
+    specs: ["Category: Whey Protein", "Pack size: 2 kg", "Brand: MuscleTech"],
   },
 ];
 
@@ -304,10 +530,29 @@ const UPI_QR_IMAGE = "assets/checkout/upi-qr.svg";
 const ADMIN_PRODUCTS_KEY = "drsAdminProducts";
 const DELETED_PRODUCTS_KEY = "drsDeletedProducts";
 const ORDERS_KEY = "drsOrders";
+const HOME_SETTINGS_KEY = "drsHomeSettings";
 const SUPABASE_PRODUCTS_TABLE = "products";
 const SUPABASE_ORDERS_TABLE = "orders";
 const SUPABASE_SETTINGS_TABLE = "settings";
 const SUPABASE_DELETED_PRODUCTS_ID = "deletedProducts";
+const SUPABASE_HOME_SETTINGS_ID = "homeSettings";
+
+const DEFAULT_HOME_SETTINGS = {
+  featuredProductIds: [
+    "americanz-muscle-whey-protein-2kg",
+    "atom-whey-enzyme-44lb",
+    "labrada-super-mass-gainer-5kg",
+  ],
+  homeCategories: [
+    { name: "Protein", description: "Whey and plant-based proteins for muscle building and recovery." },
+    { name: "Mass Gainer", description: "Premium gainers to help support healthy weight gain and bulking." },
+    { name: "Pre-workout", description: "Energy formulas to support focus, pumps and workout performance." },
+    { name: "Creatine", description: "Pure creatine supplements for strength, power and muscle volume." },
+    { name: "BCAA", description: "Amino acid support for muscle preservation and enhanced recovery." },
+    { name: "Multivitamins", description: "Essential vitamins and minerals for everyday health and wellness." },
+  ],
+  shopFilters: ["All", "Whey Protein", "Whey 1kg", "Whey Isolate", "Whey 4kg", "Mass Gainer"],
+};
 
 let supabaseClient = null;
 
@@ -397,6 +642,40 @@ async function syncDeletedProductsToSupabase(ids) {
   }
 }
 
+async function syncSettingToSupabase(id, data) {
+  const client = setupSupabase();
+  if (!client) return;
+
+  try {
+    const { error } = await client.from(SUPABASE_SETTINGS_TABLE).upsert({
+      id,
+      data,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "id" });
+    if (error) throw error;
+  } catch (error) {
+    console.warn(`Supabase setting ${id} sync failed. Local copy is saved.`, error);
+  }
+}
+
+async function fetchSettingFromSupabase(id) {
+  const client = setupSupabase();
+  if (!client) return null;
+
+  try {
+    const { data, error } = await client
+      .from(SUPABASE_SETTINGS_TABLE)
+      .select("data")
+      .eq("id", id)
+      .maybeSingle();
+    if (error) throw error;
+    return data?.data || null;
+  } catch (error) {
+    console.warn(`Supabase setting ${id} fetch failed. Using localStorage fallback.`, error);
+    return null;
+  }
+}
+
 async function fetchDeletedProductsFromSupabase() {
   const client = setupSupabase();
   if (!client) return [];
@@ -420,10 +699,11 @@ async function hydrateSupabaseData() {
   if (!client) return false;
 
   try {
-    const [products, orders, deletedIds] = await Promise.all([
+    const [products, orders, deletedIds, homeSettings] = await Promise.all([
       fetchSupabaseTable(SUPABASE_PRODUCTS_TABLE),
       fetchSupabaseTable(SUPABASE_ORDERS_TABLE),
       fetchDeletedProductsFromSupabase(),
+      fetchSettingFromSupabase(SUPABASE_HOME_SETTINGS_ID),
     ]);
 
     const localProducts = getAdminProducts();
@@ -446,6 +726,13 @@ async function hydrateSupabaseData() {
       localStorage.setItem(DELETED_PRODUCTS_KEY, JSON.stringify(deletedIds));
     } else {
       syncDeletedProductsToSupabase(localDeletedIds);
+    }
+
+    const localHomeSettings = getHomeSettings(false);
+    if (homeSettings) {
+      localStorage.setItem(HOME_SETTINGS_KEY, JSON.stringify(normalizeHomeSettings(homeSettings)));
+    } else if (localStorage.getItem(HOME_SETTINGS_KEY)) {
+      syncSettingToSupabase(SUPABASE_HOME_SETTINGS_ID, localHomeSettings);
     }
     return true;
   } catch (error) {
@@ -503,6 +790,41 @@ function saveOrders(orders) {
   const previousOrders = getOrders();
   localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
   syncTableToSupabase(SUPABASE_ORDERS_TABLE, orders, previousOrders);
+}
+
+function normalizeHomeSettings(settings = {}) {
+  return {
+    featuredProductIds: Array.isArray(settings.featuredProductIds)
+      ? settings.featuredProductIds.filter(Boolean)
+      : DEFAULT_HOME_SETTINGS.featuredProductIds,
+    homeCategories: Array.isArray(settings.homeCategories) && settings.homeCategories.length
+      ? settings.homeCategories
+          .map((category) => ({
+            name: String(category.name || "").trim(),
+            description: String(category.description || "").trim(),
+          }))
+          .filter((category) => category.name)
+      : DEFAULT_HOME_SETTINGS.homeCategories,
+    shopFilters: Array.isArray(settings.shopFilters) && settings.shopFilters.length
+      ? Array.from(new Set(settings.shopFilters.map((filter) => String(filter).trim()).filter(Boolean)))
+      : DEFAULT_HOME_SETTINGS.shopFilters,
+  };
+}
+
+function getHomeSettings(useFallback = true) {
+  try {
+    const stored = JSON.parse(localStorage.getItem(HOME_SETTINGS_KEY) || "null");
+    return normalizeHomeSettings(stored || (useFallback ? DEFAULT_HOME_SETTINGS : {}));
+  } catch {
+    return normalizeHomeSettings(DEFAULT_HOME_SETTINGS);
+  }
+}
+
+function saveHomeSettings(settings) {
+  const normalized = normalizeHomeSettings(settings);
+  localStorage.setItem(HOME_SETTINGS_KEY, JSON.stringify(normalized));
+  syncSettingToSupabase(SUPABASE_HOME_SETTINGS_ID, normalized);
+  return normalized;
 }
 
 function createOrderId() {
@@ -608,6 +930,7 @@ function addToCart(productId, button) {
 
 function productCard(product) {
   const flavourText = product.flavours?.length ? product.flavours.slice(0, 3).join(", ") : "";
+  const offerText = calculateOffer(product.price, product.originalPrice) || product.offer || "";
   const productImage = product.image
     ? `<img src="${product.image}" alt="${product.name}">`
     : `
@@ -619,7 +942,7 @@ function productCard(product) {
   return `
     <article class="card product-card pro-product-card" data-category="${product.category}" data-name="${product.name.toLowerCase()} ${product.brand.toLowerCase()} ${product.size.toLowerCase()} ${flavourText.toLowerCase()}">
       <a class="product-img product-pack ${product.image ? "has-product-image" : ""}" href="product-detail.html?id=${product.id}" aria-label="View ${product.name}">
-        <span class="offer-badge">${product.offer}</span>
+        ${offerText ? `<span class="offer-badge">${offerText}</span>` : ""}
         ${productImage}
       </a>
       <div class="product-body">
@@ -627,7 +950,7 @@ function productCard(product) {
           <span class="tag">${product.category}</span>
         </div>
         <h3><a href="product-detail.html?id=${product.id}">${product.name}</a></h3>
-        <p class="muted">${product.brand} · ${product.size} · ${product.label}</p>
+        <p class="muted">${product.brand} - ${product.size} - ${product.label}</p>
         ${flavourText ? `<p class="product-flavours">Flavours: ${flavourText}</p>` : ""}
         <div class="price-row">
           <div>
@@ -649,11 +972,46 @@ function renderProducts(limit) {
   const target = document.querySelector("[data-products]");
   if (!target) return;
   const allProducts = getProducts();
-  const products = typeof limit === "number" ? allProducts.slice(0, limit) : allProducts;
+  let products = allProducts;
+
+  if (document.body.dataset.page === "home") {
+    const featuredIds = getHomeSettings().featuredProductIds;
+    const productMap = new Map(allProducts.map((product) => [product.id, product]));
+    products = featuredIds.map((id) => productMap.get(id)).filter(Boolean);
+    if (!products.length) {
+      products = allProducts.slice(0, 3);
+    }
+  } else if (typeof limit === "number") {
+    products = allProducts.slice(0, limit);
+  }
+
   target.innerHTML = products.map(productCard).join("");
 }
 
+function renderHomeCategories() {
+  const target = document.querySelector("[data-home-categories]");
+  if (!target) return;
+
+  target.innerHTML = getHomeSettings().homeCategories.map((category) => `
+    <article class="card category">
+      <h3>${category.name}</h3>
+      <p>${category.description}</p>
+    </article>
+  `).join("");
+}
+
+function renderFilterButtons() {
+  const target = document.querySelector("[data-filter-bar]");
+  if (!target) return;
+
+  const filters = getHomeSettings().shopFilters;
+  target.innerHTML = filters.map((filter, index) => `
+    <button class="filter-btn ${index === 0 ? "active" : ""}" type="button" data-filter="${filter}">${filter}</button>
+  `).join("");
+}
+
 function setupFilters() {
+  renderFilterButtons();
   const buttons = document.querySelectorAll("[data-filter]");
   if (!buttons.length) return;
 
@@ -741,7 +1099,7 @@ function renderCheckoutSummary() {
             <div class="checkout-item">
               <div>
                 <strong>${item.name}</strong>
-                <p>${item.brand} · Qty ${item.qty}</p>
+                <p>${item.brand} � Qty ${item.qty}</p>
               </div>
               <strong>${currency.format(item.lineTotal)}</strong>
             </div>
@@ -1003,6 +1361,7 @@ function renderProductDetail() {
   const params = new URLSearchParams(window.location.search);
   const products = getProducts();
   const product = products.find((item) => item.id === params.get("id")) || products[0];
+  const offerText = calculateOffer(product.price, product.originalPrice) || product.offer || "";
   const variants = product.variantGroup
     ? products.filter((item) => item.variantGroup === product.variantGroup)
     : [];
@@ -1044,7 +1403,7 @@ function renderProductDetail() {
       `
     : `
         <div class="product-pack detail-pack">
-          <span class="offer-badge">${product.offer}</span>
+          ${offerText ? `<span class="offer-badge">${offerText}</span>` : ""}
           <span class="pack-brand">${product.brand}</span>
           <strong>${product.imageLabel}</strong>
           <small>${product.size}</small>
@@ -1263,7 +1622,7 @@ function renderAdminProductList() {
   list.innerHTML = getProducts().map((product) => `
     <button class="admin-product-row" type="button" data-admin-edit="${product.id}">
       <span>${product.name}</span>
-      <small>${product.size} · ${currency.format(product.price)}</small>
+      <small>${product.size} - ${currency.format(product.price)}</small>
     </button>
   `).join("");
 
@@ -1272,6 +1631,38 @@ function renderAdminProductList() {
   });
 }
 
+function updateAdminHomeToggle(productId = "") {
+  const button = document.querySelector("[data-admin-home-toggle]");
+  if (!button) return;
+
+  const isEditing = Boolean(productId);
+  const isFeatured = isEditing && getHomeSettings().featuredProductIds.includes(productId);
+  button.disabled = !isEditing;
+  button.textContent = isFeatured ? "Remove from Home" : "Add to Home";
+  button.classList.toggle("is-featured", isFeatured);
+}
+
+function toggleSelectedProductHome() {
+  const form = document.querySelector("[data-admin-form]");
+  const productId = form?.elements.id.value.trim();
+  if (!productId) {
+    document.querySelector("[data-admin-message]").textContent = "Select or save a product before adding it to Home.";
+    return;
+  }
+
+  const settings = getHomeSettings();
+  const featuredIds = new Set(settings.featuredProductIds);
+  if (featuredIds.has(productId)) {
+    featuredIds.delete(productId);
+  } else {
+    featuredIds.add(productId);
+  }
+  saveHomeSettings({ ...settings, featuredProductIds: Array.from(featuredIds) });
+  updateAdminHomeToggle(productId);
+  renderProducts();
+  const productName = form.elements.name.value.trim() || "Product";
+  document.querySelector("[data-admin-message]").textContent = `${productName} home section updated.`;
+}
 function loadAdminProduct(productId) {
   const form = document.querySelector("[data-admin-form]");
   if (!form) return;
@@ -1298,6 +1689,7 @@ function loadAdminProduct(productId) {
   document.querySelector("[data-admin-message]").textContent = `Editing ${product.name}`;
   setUploadStatus("[data-main-upload-status]", "Choose image to upload immediately.", "");
   setUploadStatus("[data-more-upload-status]", "Choose multiple images to upload immediately.", "");
+  updateAdminHomeToggle(product.id);
 }
 
 function clearAdminForm() {
@@ -1308,6 +1700,7 @@ function clearAdminForm() {
   document.querySelector("[data-admin-message]").textContent = "Ready to add a new product.";
   setUploadStatus("[data-main-upload-status]", "Choose image to upload immediately.", "");
   setUploadStatus("[data-more-upload-status]", "Choose multiple images to upload immediately.", "");
+  updateAdminHomeToggle("");
 }
 
 function setUploadStatus(selector, message, state = "") {
@@ -1339,7 +1732,7 @@ function setupInstantAdminUploads(form) {
     try {
       const url = await uploadImageToCloudinary(file);
       form.elements.image.value = url;
-      setUploadStatus("[data-main-upload-status]", "✓ Main image uploaded. URL added.", "success");
+      setUploadStatus("[data-main-upload-status]", "Uploaded. Main image URL added.", "success");
     } catch (error) {
       console.warn("Main image upload failed.", error);
       setUploadStatus("[data-main-upload-status]", "Upload failed. Check Cloudinary preset.", "error");
@@ -1356,7 +1749,7 @@ function setupInstantAdminUploads(form) {
     try {
       const urls = await Promise.all(files.map(uploadImageToCloudinary));
       appendUniqueLines(form.elements.images, urls);
-      setUploadStatus("[data-more-upload-status]", `✓ ${urls.filter(Boolean).length} image(s) uploaded. URLs added.`, "success");
+      setUploadStatus("[data-more-upload-status]", `${urls.filter(Boolean).length} image(s) uploaded. URLs added.`, "success");
     } catch (error) {
       console.warn("More image upload failed.", error);
       setUploadStatus("[data-more-upload-status]", "Upload failed. Check Cloudinary preset.", "error");
@@ -1366,6 +1759,50 @@ function setupInstantAdminUploads(form) {
   });
 }
 
+function homeCategoriesToText(categories) {
+  return categories.map((category) => `${category.name} | ${category.description}`).join("\n");
+}
+
+function textToHomeCategories(value) {
+  return String(value || "")
+    .split("\n")
+    .map((line) => {
+      const [name, ...descriptionParts] = line.split("|");
+      return {
+        name: String(name || "").trim(),
+        description: descriptionParts.join("|").trim(),
+      };
+    })
+    .filter((category) => category.name);
+}
+
+function setupHomeSettingsAdmin() {
+  const categoriesInput = document.querySelector("[data-home-categories-input]");
+  const filtersInput = document.querySelector("[data-shop-filters-input]");
+  const saveButton = document.querySelector("[data-save-home-settings]");
+  const message = document.querySelector("[data-home-settings-message]");
+  if (!categoriesInput || !filtersInput || !saveButton) return;
+
+  const settings = getHomeSettings();
+  categoriesInput.value = homeCategoriesToText(settings.homeCategories);
+  filtersInput.value = settings.shopFilters.join("\n");
+
+  saveButton.addEventListener("click", () => {
+    const nextSettings = saveHomeSettings({
+      ...getHomeSettings(),
+      homeCategories: textToHomeCategories(categoriesInput.value),
+      shopFilters: textToList(filtersInput.value),
+    });
+    categoriesInput.value = homeCategoriesToText(nextSettings.homeCategories);
+    filtersInput.value = nextSettings.shopFilters.join("\n");
+    renderHomeCategories();
+    renderFilterButtons();
+    renderAdminProductList();
+    if (message) {
+      message.textContent = "Site settings saved. Home and product filters updated.";
+    }
+  });
+}
 function setupAdminPage() {
   const form = document.querySelector("[data-admin-form]");
   if (!form) return;
@@ -1373,8 +1810,11 @@ function setupAdminPage() {
   renderAdminProductList();
   renderAdminOrders();
   setupInstantAdminUploads(form);
+  setupHomeSettingsAdmin();
+  updateAdminHomeToggle(form.elements.id.value.trim());
 
   document.querySelector("[data-admin-new]")?.addEventListener("click", clearAdminForm);
+  document.querySelector("[data-admin-home-toggle]")?.addEventListener("click", toggleSelectedProductHome);
   document.querySelector("[data-admin-delete]")?.addEventListener("click", () => {
     const productId = form.elements.id.value.trim();
     if (!productId) {
@@ -1436,6 +1876,7 @@ function setupAdminPage() {
     saveDeletedProductIds(getDeletedProductIds().filter((deletedId) => deletedId !== id));
     renderAdminProductList();
     loadAdminProduct(id);
+    updateAdminHomeToggle(id);
     document.querySelector("[data-admin-message]").textContent = `${product.name} saved. Product pages now use this data.`;
   });
 
@@ -1601,10 +2042,12 @@ function setupTrackPage() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  await hydrateSupabaseData();
+  const productLimit = document.body.dataset.page === "home" ? 3 : undefined;
+
   updateCartCount();
   setupMobileMenu();
-  renderProducts(document.body.dataset.page === "home" ? 3 : undefined);
+  renderProducts(productLimit);
+  renderHomeCategories();
   setupFilters();
   setupProductSearch();
   renderProductDetail();
@@ -1612,5 +2055,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderCart();
   setupAdminPage();
   setupTrackPage();
+
+  const hydrated = await hydrateSupabaseData();
+  if (hydrated) {
+    updateCartCount();
+    renderProducts(productLimit);
+    renderHomeCategories();
+    setupFilters();
+    renderProductDetail();
+    renderCart();
+    renderAdminProductList();
+    renderAdminOrders();
+    const form = document.querySelector("[data-admin-form]");
+    updateAdminHomeToggle(form?.elements.id.value.trim() || "");
+  }
 });
 
