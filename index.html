@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DRS Supplements | One Stop for All Your Supplement Needs</title>
   <meta name="description" content="DRS Supplements sells genuine protein, mass gainer, pre-workout, creatine, BCAA and nutrition products in Chennai.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="home">
@@ -14,7 +17,7 @@
         <span></span><span></span><span></span>
       </button>
       <a class="brand" href="index.html" aria-label="DRS Supplements">
-        <img class="brand-logo-image" src="assets/brand/drs-logo-wide.png" alt="DRS Supplements">
+        <img class="brand-logo-image" src="assets/brand/drs-logo-3d.jpg" alt="DRS Supplements">
       </a>
       <div class="nav-actions">
         <a class="cart-link nav-cart" href="cart.html" aria-label="Cart">
@@ -39,28 +42,57 @@
   </header>
 
   <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <p class="eyebrow">100% Original Products · Best Price</p>
-          <h1>One Stop for All Your Supplement Needs</h1>
-          <p class="lead">Shop protein, mass gainers, pre-workout, creatine, BCAA and daily nutrition products from trusted brands.</p>
-          <div class="actions">
-            <a class="btn btn-primary" href="products.html">Shop Products</a>
-            <a class="btn btn-outline" href="contact.html">Ask for Guidance</a>
+    <section class="hero-slider" aria-label="Featured promotions">
+      <div class="slider-track" data-slider-track>
+        <div class="slider-slide">
+          <a href="products.html" aria-label="Clean Supplements Real Results Shop Now">
+            <img src="assets/brand/hero-banner-1.png" alt="Clean Supplements Real Results Shop Now" fetchpriority="high">
+          </a>
+        </div>
+        <div class="slider-slide">
+          <a href="products.html" aria-label="Power Strength Performance Shop Now">
+            <img src="assets/brand/hero-banner-2.png" alt="Power Strength Performance Shop Now" loading="lazy">
+          </a>
+        </div>
+      </div>
+      <button class="slider-arrow prev" data-slider-prev aria-label="Previous promotion">&larr;</button>
+      <button class="slider-arrow next" data-slider-next aria-label="Next promotion">&rarr;</button>
+      <div class="slider-dots" data-slider-dots></div>
+    </section>
+
+    <section class="section categories-section">
+      <div class="container">
+        <div class="section-head centered">
+          <div>
+            <p class="eyebrow">Browse our collection</p>
+            <h2>Shop by Categories</h2>
           </div>
         </div>
-        <div class="hero-product-carousel" aria-label="Featured supplement products">
-          <div class="hero-product-track">
-            <div class="hero-product-slide"><img src="assets/products/americanz-muscle-whey-protein-2kg-front.jpeg" alt="Americanz Muscle Professional Protein"></div>
-            <div class="hero-product-slide"><img src="assets/products/atom-whey-enzyme-front.jpeg" alt="Atom Whey Enzyme"></div>
-            <div class="hero-product-slide"><img src="assets/products/qnt-prime-whey.jpeg" alt="QNT Prime Whey Protein"></div>
-            <div class="hero-product-slide"><img src="assets/products/muscletech-nitro-tech-whey.jpeg" alt="MuscleTech Nitro Tech Whey Protein"></div>
-            <div class="hero-product-slide"><img src="assets/products/americanz-muscle-whey-protein-2kg-front.jpeg" alt="Americanz Muscle Professional Protein"></div>
-            <div class="hero-product-slide"><img src="assets/products/atom-whey-enzyme-front.jpeg" alt="Atom Whey Enzyme"></div>
-            <div class="hero-product-slide"><img src="assets/products/qnt-prime-whey.jpeg" alt="QNT Prime Whey Protein"></div>
-            <div class="hero-product-slide"><img src="assets/products/muscletech-nitro-tech-whey.jpeg" alt="MuscleTech Nitro Tech Whey Protein"></div>
-          </div>
+        <div class="category-grid">
+          <a href="products.html?category=Whey%20Protein" class="category-card" aria-label="Shop proteins">
+            <div class="category-image-wrapper">
+              <img src="assets/brand/category-proteins.png" alt="proteins">
+            </div>
+            <h3 class="category-title">proteins</h3>
+          </a>
+          <a href="products.html?category=Mass%20Gainer" class="category-card" aria-label="Shop Mass Gainers">
+            <div class="category-image-wrapper">
+              <img src="assets/brand/category-mass-gainers.png" alt="Mass Gainers">
+            </div>
+            <h3 class="category-title">Mass Gainers</h3>
+          </a>
+          <a href="products.html?category=All" class="category-card" aria-label="Shop Combo Deals">
+            <div class="category-image-wrapper">
+              <img src="assets/brand/category-combo-deals.png" alt="Combo Deals">
+            </div>
+            <h3 class="category-title">Combo Deals</h3>
+          </a>
+          <a href="products.html?category=Whey%20Isolate" class="category-card" aria-label="Shop isolate proteins">
+            <div class="category-image-wrapper">
+              <img src="assets/brand/category-isolate-proteins.png" alt="isolate proteins">
+            </div>
+            <h3 class="category-title">isolate proteins</h3>
+          </a>
         </div>
       </div>
     </section>
@@ -125,6 +157,7 @@
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="footer">

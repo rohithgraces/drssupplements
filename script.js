@@ -1026,6 +1026,16 @@ function setupFilters() {
       });
     });
   });
+
+  // Handle category filtering from URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const categoryParam = urlParams.get("category");
+  if (categoryParam) {
+    const targetButton = Array.from(buttons).find(btn => btn.dataset.filter.toLowerCase() === categoryParam.toLowerCase());
+    if (targetButton) {
+      targetButton.click();
+    }
+  }
 }
 
 function setupProductSearch() {
@@ -2079,12 +2089,107 @@ function setupTrackPage() {
           <div><span>Payment</span><strong>${order.paymentStatus}</strong></div>
           <div><span>Shipping</span><strong>${order.shippingStatus}</strong></div>
           <div><span>Location</span><strong>${order.location}</strong></div>
-          <div><span>Total</span><strong>${currency.format(order.total)}</strong></div>
-        </div>
+          <div><span>Total</span><strong>${currency.format(order.total)}</strong></div>        </div>
         <p>${order.trackingNote}</p>
       </article>
     `;
   });
+}
+
+function setupHeroSlider() {
+  const track = document.querySelector("[data-slider-track]");
+  const prevBtn = document.querySelector("[data-slider-prev]");
+  const nextBtn = document.querySelector("[data-slider-next]");
+  const dotsContainer = document.querySelector("[data-slider-dots]");
+  if (!track) return;
+
+  const slides = track.querySelectorAll(".slider-slide");
+  const slideCount = slides.length;
+  if (slideCount === 0) return;
+
+  let currentIndex = 0;
+  let intervalId = null;
+
+  // Adapt track and slides layout dynamically
+  track.style.width = `${slideCount * 100}%`;
+  slides.forEach(slide => {
+    slide.style.width = `${100 / slideCount}%`;
+  });
+
+  // Generate dots dynamically if they aren't already present
+  if (dotsContainer && dotsContainer.children.length === 0) {
+    for (let i = 0; i < slideCount; i++) {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = `slider-dot ${i === 0 ? "active" : ""}`;
+      dot.dataset.slideIndex = i;
+      dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  const dots = document.querySelectorAll("[data-slider-dots] .slider-dot");
+
+  function updateSlider() {
+    track.style.transform = `translateX(-${currentIndex * (100 / slideCount)}%)`;
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === currentIndex);
+    });
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slideCount;
+    updateSlider();
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+    updateSlider();
+  }
+
+  function startAutoPlay() {
+    stopAutoPlay();
+    intervalId = setInterval(nextSlide, 5000);
+  }
+
+  function stopAutoPlay() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      prevSlide();
+      startAutoPlay();
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      nextSlide();
+      startAutoPlay();
+    });
+  }
+
+  dotsContainer?.addEventListener("click", (e) => {
+    const dot = e.target.closest(".slider-dot");
+    if (!dot) return;
+    const index = parseInt(dot.dataset.slideIndex, 10);
+    if (isNaN(index)) return;
+    currentIndex = index;
+    updateSlider();
+    startAutoPlay();
+  });
+
+  const sliderContainer = document.querySelector(".hero-slider");
+  if (sliderContainer) {
+    sliderContainer.addEventListener("mouseenter", stopAutoPlay);
+    sliderContainer.addEventListener("mouseleave", startAutoPlay);
+  }
+
+  startAutoPlay();
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -2092,6 +2197,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   updateCartCount();
   setupMobileMenu();
+  setupHeroSlider();
   renderProducts(productLimit);
   renderHomeCategories();
   setupFilters();
